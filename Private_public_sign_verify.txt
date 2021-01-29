@@ -1,38 +1,38 @@
-//create a file in the folder and (in this example the file is the following)
-echo. > bob.txt
+//See below for instructions on how to create a private key and a public key, how to sign a message and how to verify it using openssl on Windows 10 by cmd
 
-//write something in it
+//create a file and write a message in it
+C:\user>echo. > bob.txt
 
-//open openssl
-openssl
+//open Openssl
+C:\user>openssl
 
 //generate a private key:
-genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
+OpenSSL>genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
 
 //derive the public key:
-pkey -in privatekey.pem -out publickey.pem -pubout
+OpenSSL>pkey -in privatekey.pem -out publickey.pem -pubout
 
 //sign the message with the private key previously generated
-dgst -sha256 -sign privatekey.pem -out sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -sign privatekey.pem -out sign.sha256 bob.txt
 
 	//to get a readable (if base64) version of this file, the follow-up command is
-	openssl enc -base64 -in sign.sha256 -out sign.sha256.base64
+	OpenSSL>openssl enc -base64 -in sign.sha256 -out sign.sha256.base64
 
 //now verify the digital signature with the public key
 	//first decode the base64 signature
-	enc -base64 -d -in sign.sha256.base64 -out sign.sha256
+	OpenSSL>enc -base64 -d -in sign.sha256.base64 -out sign.sha256
 
 //now veirfy the signature
-dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
 
 //you should get the following message
 Verified OK
 
 //now, for exercise, modify the message of bob.txt
 //then, verify again
-dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
 
-//now you get the following message
+//of course the verification fails and you get the following message
 Verification Failure
 error in dgst
 
@@ -41,8 +41,6 @@ error in dgst
 
 
 
-//references:
-https://wiki.openssl.org/index.php/Command_Line_Utilities
-https://opensource.com/article/19/6/cryptography-basics-openssl-part-2
+
 
 
