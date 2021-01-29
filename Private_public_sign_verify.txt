@@ -1,7 +1,7 @@
 //See below for instructions on how to create a private key and a public key, how to sign a message and how to verify it using openssl on Windows 10 by cmd
 
 //create a file and write a message in it
-C:\user>echo. > bob.txt
+C:\user>echo. > message.txt
 
 //open Openssl
 C:\user>openssl
@@ -13,7 +13,7 @@ OpenSSL>genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
 OpenSSL>pkey -in privatekey.pem -out publickey.pem -pubout
 
 //sign the message with the private key previously generated
-OpenSSL>dgst -sha256 -sign privatekey.pem -out sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -sign privatekey.pem -out sign.sha256 message.txt
 
 	//to get a readable (if base64) version of this file, the follow-up command is
 	OpenSSL>openssl enc -base64 -in sign.sha256 -out sign.sha256.base64
@@ -23,14 +23,14 @@ OpenSSL>dgst -sha256 -sign privatekey.pem -out sign.sha256 bob.txt
 	OpenSSL>enc -base64 -d -in sign.sha256.base64 -out sign.sha256
 
 //now veirfy the signature
-OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 message.txt
 
 //you should get the following message
 Verified OK
 
-//now, for exercise, modify the message of bob.txt
+//now, for exercise, modify the message of message.txt
 //then, verify again
-OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 bob.txt
+OpenSSL>dgst -sha256 -verify publickey.pem -signature sign.sha256 message.txt
 
 //of course the verification fails and you get the following message
 Verification Failure
