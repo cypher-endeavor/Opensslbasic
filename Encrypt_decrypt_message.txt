@@ -1,7 +1,9 @@
-//Suppose you want to send a secret message to Alice: you need her public key to encrypt the message you want to send
+//I used Windows 10 cmd and OpenSSL 1.1.1i  8 Dec 2020
+
+//Suppose Bob wants to send a secret message to Alice: he needs her public key to encrypt the message he wants to send her
 //in Alice's folder create a private key, then derive the public key from that:
-genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
-pkey -in privatekey.pem -out publickey.pem -pubout
+>OpenSSL>genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
+>OpenSSL>pkey -in privatekey.pem -out publickey.pem -pubout
 
 //write the message in Bob's folder
 C:\Bob>echo. > message.txt
@@ -10,13 +12,13 @@ C:\Bob>echo. > message.txt
 C:\Alice>move publickey.pem "C:\Bob"
 
 //in Bob's folder encrypt the message
-rsautl -encrypt -inkey publickey.pem -pubin -in message.txt -out message.txt.enc
+>OpenSSL>rsautl -encrypt -inkey publickey.pem -pubin -in message.txt -out message.txt.enc
 
 	//you can change it in base64 to get e readable message (but still secret)
-	enc -base64 -in message.txt.enc -out message.txt.enc.base64
+	>OpenSSL>enc -base64 -in message.txt.enc -out message.txt.enc.base64
 
 //now you can send the message to Alice, so she can decrypt the message
 >C:\Bob>move message.txt.enc "C:\Alice"
 
 //now Alice can finally decrypt Bob's message with her private key
-rsautl -decrypt -inkey privatekey.pem -in message.txt.enc -out bobmessage.txt
+OpenSSL>rsautl -decrypt -inkey privatekey.pem -in message.txt.enc -out bobmessage.txt
