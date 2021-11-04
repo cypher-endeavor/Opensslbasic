@@ -13,6 +13,8 @@ OpenSSL>rsa -in privatekey.pem -check
 
 //derive the public key:
 OpenSSL>pkey -in privatekey.pem -out publickey.pem -pubout
+//use this commmand to see the public key:
+OpenSSL>pkey -in publickey.pem -pubin -text
 
 //sign the message with the private key previously generated
 OpenSSL>dgst -sha256 -sign privatekey.pem -out sign.sha256 message.txt
