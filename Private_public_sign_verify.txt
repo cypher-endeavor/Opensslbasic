@@ -8,6 +8,8 @@ C:\user>openssl
 
 //generate a private key:
 OpenSSL>genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out privatekey.pem
+//if you want to check the private key use this command:
+OpenSSL>rsa -in privatekey.pem -check
 
 //derive the public key:
 OpenSSL>pkey -in privatekey.pem -out publickey.pem -pubout
