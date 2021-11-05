@@ -1,0 +1,14 @@
+//create a pair of private-public key (2048 bit RSA private key)
+OpenSSL>req -x509 -nodes -newkey rsa:2048 -keyout privatekey.pem -out publickey.pem
+
+//encrypt the file using the public key
+OpenSSL>smime -encrypt -binary -aes-256-cbc -in FILENAME -out FILENAME.dat -outform DER publickey.pem
+
+//you can generate the hashes of the original file and the encrypted one to check them
+$ sha256sum FILENAME*
+
+//now decrypt the files
+OpenSSL>smime -decrypt -in FILENAME.dat -binary -inform DEM -inkey privatekey.pem -out decrypted_FILENAME
+
+//you can check again the hashes of the originale file and the encrypted-decrypted one
+$sha256sum *FILENAME*
